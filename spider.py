@@ -12,6 +12,8 @@ from collections import OrderedDict
 import json
 import copy
 import pdb
+import urllib3
+urllib3.disable_warnings()
 
 class CityCode(object):
     def __init__(self, *city):
@@ -89,6 +91,7 @@ class Tool(object):
 class ATrain(object):
     def __init__(self):
         """"""
+        self.train_no = None
         self.first_city = None
         self.start_city = None
         self.dest_city = None
@@ -167,6 +170,21 @@ class ATrain(object):
         self.end_time = etime
         self.need_time = ntime
 
+    def set_train_no(self, no):
+        """about train ways"""
+        self.train_no = no
+
+    def get_train_no(self):
+        return self.train_no
+
+    def get_start_city(self):
+        return self.start_city
+
+    def get_dest_city(self):
+        return self.dest_city
+
+    def get_train_code(self):
+        return self.train_code
 
 
 class OneItem(object):
@@ -269,4 +287,11 @@ class Spider(object):
             citys = [Tool.from_code_get_city(item) for item in l1[1:5]]
             train.set_city(citys[0], citys[1], citys[2], citys[3])
             train.set_train_time(l1[5], l1[6], l1[7])
+            train.set_train_no(info[2])
             self.all_trains.append(train)
+
+    def get_one_train(self, traincode):
+        for item in self.all_trains:
+            if item.get_train_code() == traincode:
+                return copy.deepcopy(item)
+
