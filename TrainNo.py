@@ -56,16 +56,3 @@ class TrainNo(object):
             res_list.append(item.get_info())
         return json.dumps(res_list)
 
-if __name__ == '__main__':
-    spider.Tool.update_all_city()
-    myspider = spider.Spider('成都', '洛阳', '2017-07-01')
-    myspider.send_requests()
-    myspider.parse_json()
-    json_data = myspider.select('TrainCode', 'StartCity', 'NeedTime', 'EDZ', 'YZ')
-    showobj = show.prettyshow(json_data)
-    showobj.show()
-    train = TrainNo(myspider.get_one_train('K386'), '2017-07-01')
-    train.send_requests()
-    data = train.contruct_show_table()
-    showobj = show.prettyshow(data)
-    showobj.show()
